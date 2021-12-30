@@ -10,8 +10,10 @@
 	},
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-
+	"settings": {
+		"svelte.enable-ts-plugin": true,
+		"editor.formatOnSave": true,
+	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -19,7 +21,8 @@
 		"svelte.svelte-vscode",
 		"esbenp.prettier-vscode",
 		"ms-vscode.vscode-typescript-next",
-		"visualstudioexptteam.vscodeintellicode"
+		"visualstudioexptteam.vscodeintellicode",
+		"bradlc.vscode-tailwindcss"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
