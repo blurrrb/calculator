@@ -14,7 +14,13 @@
 
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	"extensions": [
+		"matklad.rust-analyzer",
+		"svelte.svelte-vscode",
+		"esbenp.prettier-vscode",
+		"ms-vscode.vscode-typescript-next",
+		"visualstudioexptteam.vscodeintellicode"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
