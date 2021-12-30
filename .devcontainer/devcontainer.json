@@ -17,7 +17,7 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"matklad.rust-analyzer",
+		// "matklad.rust-analyzer",
 		"svelte.svelte-vscode",
 		"esbenp.prettier-vscode",
 		"ms-vscode.vscode-typescript-next",
@@ -35,6 +35,6 @@
 	"remoteUser": "vscode",
 	"features": {
 		"node": "lts",
-		"rust": "latest"
+		// "rust": "latest"
 	}
 }
