@@ -9,3 +9,9 @@
 </svelte:head>
 
 <slot />
+
+<style>
+	button {
+		touch-action: manipulation;
+	}
+</style>
