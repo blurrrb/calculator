@@ -1,5 +1,5 @@
 <script>
-	import tokenStore from "$lib/stores/TokenStore";
+	import tokenStore from '$lib/stores/TokenStore';
 </script>
 
 {#each $tokenStore as token, idx (idx)}
