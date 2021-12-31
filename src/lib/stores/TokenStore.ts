@@ -7,12 +7,12 @@ const tokenStore = writable(tokenizer.getTokens());
 const wrapTokenizerMethod = (tokenizerMethod) => {
 	return (...args) => {
 		return () => {
+			navigator.vibrate(5);
 			const err = tokenizerMethod(...args);
 			if (err) {
 				console.log('Error occurred while processing: ', err.errorMessage);
 				return;
 			}
-			navigator.vibrate(10);
 			tokenStore.set(tokenizer.getTokens());
 		};
 	};
