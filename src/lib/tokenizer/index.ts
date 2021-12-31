@@ -144,11 +144,7 @@ export default class Tokenizer {
 		) {
 			return new Error(ErrorMessages.INVALID_SYNTAX);
 		}
-		this.insertBasicToken(
-			new ClosingParenthesisToken(
-				this.openingParenthesisPositions[this.openingParenthesisPositions.length - 1]
-			)
-		);
+		this.insertBasicToken(new ClosingParenthesisToken(this.openingParenthesisPositions.pop()));
 		this.parenthesisCount--;
 		return null;
 	}
@@ -175,7 +171,8 @@ export default class Tokenizer {
 			return new Error(ErrorMessages.DELETION_ERROR);
 		}
 
-		this.removeBasicToken();
+		const token = <ClosingParenthesisToken>this.removeBasicToken();
+		this.openingParenthesisPositions.push(token.openingBracketLocation);
 		this.parenthesisCount++;
 		return null;
 	}
