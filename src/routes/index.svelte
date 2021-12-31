@@ -3,6 +3,7 @@
 	import evalStore from '$lib/stores/Eval';
 	import ExpressionPanel from '$lib/components/ExpressionPanel.svelte';
 	import { tick, onMount } from 'svelte';
+	import { getAssetPath } from '$lib/utils';
 
 	let expressionDisplay;
 
@@ -30,11 +31,11 @@
 		<div class="h-1/5 px-8">
 			<button class="h-full p-auto">
 				<!-- svelte-ignore a11y-missing-attribute -->
-				<img class="w-8" src="/icons/history.svg" />
+				<img class="w-8" src={getAssetPath('/icons/history.svg')} />
 			</button>
 			<button on:click={tokenStore.removeCharacter()} class="h-full p-auto float-right">
 				<!-- svelte-ignore a11y-missing-attribute -->
-				<img class="w-8" src="/icons/backspace.svg" />
+				<img class="w-8" src={getAssetPath('/icons/backspace.svg')} />
 			</button>
 		</div>
 	</div>

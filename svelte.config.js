@@ -14,7 +14,6 @@ const config = {
 		target: '#svelte',
 		paths: {
 			base: '/calculator'
-			// assets: '/calculator'
 		}
 	}
 };
