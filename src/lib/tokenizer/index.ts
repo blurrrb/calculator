@@ -1,4 +1,4 @@
-import { ErrorMessages } from '$lib/error';
+import Error, { ErrorMessages } from '$lib/error';
 import {
 	AdditionToken,
 	ClosingParenthesisToken,
@@ -145,7 +145,7 @@ export default class Tokenizer {
 			this.tokens.length == 0 ||
 			this.tokens[this.prevTokenIdx].type != TokenTypes.OpeningParenthesis
 		) {
-			return Error(ErrorMessages.DELETION_ERROR);
+			return new Error(ErrorMessages.DELETION_ERROR);
 		}
 
 		this.removeBasicToken();
@@ -159,7 +159,7 @@ export default class Tokenizer {
 			this.tokens.length == 0 ||
 			this.tokens[this.prevTokenIdx].type != TokenTypes.ClosingParenthesis
 		) {
-			return Error(ErrorMessages.DELETION_ERROR);
+			return new Error(ErrorMessages.DELETION_ERROR);
 		}
 
 		this.removeBasicToken();
@@ -168,6 +168,12 @@ export default class Tokenizer {
 	}
 
 	toggleOrInsertNegationToken(): Error {
+		const isNumber = this.tokens[this.prevTokenIdx].type == TokenTypes.Number;
+		let numberToken;
+		if (isNumber) {
+			numberToken = this.removeBasicToken();
+		}
+
 		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Negation) {
 			this.insertOpeningParenthesis();
 			this.insertBasicToken(new NegationToken());
@@ -175,19 +181,34 @@ export default class Tokenizer {
 			this.removeBasicToken();
 			this.removeOpeningParenthesis();
 		}
+
+		if (isNumber) {
+			this.insertBasicToken(numberToken);
+		}
+
 		return null;
 	}
 
 	removeOperator(): Error {
 		if (this.tokens.length == 0 || !isOperator(this.tokens[this.prevTokenIdx])) {
-			return Error(ErrorMessages.DELETION_ERROR);
+			return new Error(ErrorMessages.DELETION_ERROR);
 		}
 		this.removeBasicToken();
 	}
 
-	insertDigit(): Error {
+	insertDigit(digit: string): Error {
+		// TODO: fix this method
+		this.insertBasicToken(new NumberToken(digit));
+		return null;
+	}
+
+	removeDigit(): Error {
+		// TODO: fix this method
 		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Number) {
-			this.tokens.push(new NumberToken());
+			return new Error(ErrorMessages.DELETION_ERROR);
 		}
+
+		this.removeBasicToken();
+		return null;
 	}
 }

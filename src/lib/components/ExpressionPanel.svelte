@@ -1,5 +1,5 @@
 <script>
-	export let tokenStore;
+	import tokenStore from "$lib/stores/TokenStore";
 </script>
 
 {#each $tokenStore as token, idx (idx)}

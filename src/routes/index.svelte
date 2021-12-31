@@ -1,9 +1,8 @@
 <script>
-	import createTokenizer from '$lib/stores/tokens';
-	import Expression from '$lib/components/expression.svelte';
+	import tokenStore from '$lib/stores/TokenStore';
+	import ExpressionPanel from '$lib/components/ExpressionPanel.svelte';
 	import { tick, onMount } from 'svelte';
 
-	const { tokenStore, resetTokens, insertNumber, insertOperator, removeChar } = createTokenizer();
 	let expressionDisplay;
 
 	onMount(() => {
@@ -20,7 +19,7 @@
 			bind:this={expressionDisplay}
 			class="h-3/5 px-8 pt-10 w-full break-all text-4xl text-white overflow-auto"
 		>
-			<Expression {tokenStore} />
+			<ExpressionPanel/>
 		</div>
 		<div class="h-1/5 px-8 flex items-center justify-center">
 			<span class="text-2xl font-extrabold text-green-800">=</span>
@@ -31,33 +30,33 @@
 			<button class="h-full p-auto">
 				<img class="w-8" src="/icons/history.svg" alt="" srcset="" />
 			</button>
-			<button on:click={() => removeChar()} class="h-full p-auto float-right">
+			<button class="h-full p-auto float-right">
 				<img class="w-8" src="/icons/backspace.svg" alt="" srcset="" />
 			</button>
 		</div>
 	</div>
 	<div class="p-2 pt-0 h-3/5 grid grid-cols-4 gap-2">
-		<button on:click={() => resetTokens()} class="text-2xl h-auto btn btn-error">C</button>
-		<button on:click={() => insertOperator('(')} class="text-2xl h-auto btn btn-warning">(</button>
-		<button on:click={() => insertOperator(')')} class="text-2xl h-auto btn btn-warning">)</button>
-		<button on:click={() => insertOperator('/')} class="text-2xl h-auto btn btn-warning">/</button>
-		<button on:click={() => insertNumber('7')} class="text-2xl h-auto btn">7</button>
-		<button on:click={() => insertNumber('8')} class="text-2xl h-auto btn">8</button>
-		<button on:click={() => insertNumber('9')} class="text-2xl h-auto btn">9</button>
-		<button on:click={() => insertOperator('x')} class="text-2xl h-auto btn btn-warning normal-case"
+		<button on:click={tokenStore.resetTokens()} class="text-2xl h-auto btn btn-error">C</button>
+		<button on:click={tokenStore.insertOpeningParenthesis} class="text-2xl h-auto btn btn-warning">(</button>
+		<button on:click={tokenStore.insertClosingParenthesis} class="text-2xl h-auto btn btn-warning">)</button>
+		<button on:click={tokenStore.insertDivisionToken} class="text-2xl h-auto btn btn-warning">/</button>
+		<button on:click={tokenStore.insertDigit('7')} class="text-2xl h-auto btn">7</button>
+		<button on:click={tokenStore.insertDigit('8')} class="text-2xl h-auto btn">8</button>
+		<button on:click={tokenStore.insertDigit('9')} class="text-2xl h-auto btn">9</button>
+		<button on:click={tokenStore.insertMultiplicationToken} class="text-2xl h-auto btn btn-warning normal-case"
 			>x</button
 		>
-		<button on:click={() => insertNumber('4')} class="text-2xl h-auto btn">4</button>
-		<button on:click={() => insertNumber('5')} class="text-2xl h-auto btn">5</button>
-		<button on:click={() => insertNumber('6')} class="text-2xl h-auto btn">6</button>
-		<button on:click={() => insertOperator('-')} class="text-2xl h-auto btn btn-warning">-</button>
-		<button on:click={() => insertNumber('1')} class="text-2xl h-auto btn">1</button>
-		<button on:click={() => insertNumber('2')} class="text-2xl h-auto btn">2</button>
-		<button on:click={() => insertNumber('3')} class="text-2xl h-auto btn">3</button>
-		<button on:click={() => insertOperator('+')} class="text-2xl h-auto btn btn-warning">+</button>
-		<button on:click={() => insertOperator('-')} class="text-2xl h-auto btn">+/-</button>
-		<button on:click={() => insertNumber('0')} class="text-2xl h-auto btn">0</button>
-		<button on:click={() => insertNumber('.')} class="text-2xl h-auto btn">.</button>
+		<button on:click={tokenStore.insertDigit('4')} class="text-2xl h-auto btn">4</button>
+		<button on:click={tokenStore.insertDigit('5')} class="text-2xl h-auto btn">5</button>
+		<button on:click={tokenStore.insertDigit('6')} class="text-2xl h-auto btn">6</button>
+		<button on:click={tokenStore.insertSubtractionToken} class="text-2xl h-auto btn btn-warning">-</button>
+		<button on:click={tokenStore.insertDigit('1')} class="text-2xl h-auto btn">1</button>
+		<button on:click={tokenStore.insertDigit('2')} class="text-2xl h-auto btn">2</button>
+		<button on:click={tokenStore.insertDigit('3')} class="text-2xl h-auto btn">3</button>
+		<button on:click={tokenStore.insertAdditionToken} class="text-2xl h-auto btn btn-warning">+</button>
+		<button on:click={tokenStore.toggleOrInsertNegationToken} class="text-2xl h-auto btn">+/-</button>
+		<button on:click={tokenStore.insertDigit('0')} class="text-2xl h-auto btn">0</button>
+		<button on:click={tokenStore.insertDigit('.')} class="text-2xl h-auto btn">.</button>
 		<button class="text-2xl h-auto btn btn-success">=</button>
 	</div>
 </div>
