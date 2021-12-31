@@ -12,6 +12,7 @@ const wrapTokenizerMethod = (tokenizerMethod) => {
 				console.log('Error occurred while processing: ', err.errorMessage);
 				return;
 			}
+			navigator.vibrate(10);
 			tokenStore.set(tokenizer.getTokens());
 		};
 	};
