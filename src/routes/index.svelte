@@ -40,40 +40,49 @@
 		</div>
 	</div>
 	<div class="p-2 pt-0 h-3/5 grid grid-cols-4 gap-2">
-		<button on:click={tokenStore.resetTokens()} class="text-2xl h-auto btn btn-error">C</button>
-		<button on:click={tokenStore.insertOpeningParenthesis()} class="text-2xl h-auto btn btn-warning"
-			>(</button
+		<button
+			on:click={tokenStore.resetTokens()}
+			class="text-2xl h-auto btn btn-active btn-active btn-error">C</button
 		>
-		<button on:click={tokenStore.insertClosingParenthesis()} class="text-2xl h-auto btn btn-warning"
-			>)</button
+		<button
+			on:click={tokenStore.insertOpeningParenthesis()}
+			class="text-2xl h-auto btn btn-active btn-warning">(</button
 		>
-		<button on:click={tokenStore.insertDivisionToken()} class="text-2xl h-auto btn btn-warning"
-			>/</button
+		<button
+			on:click={tokenStore.insertClosingParenthesis()}
+			class="text-2xl h-auto btn btn-active btn-warning">)</button
 		>
-		<button on:click={tokenStore.insertDigit('7')} class="text-2xl h-auto btn">7</button>
-		<button on:click={tokenStore.insertDigit('8')} class="text-2xl h-auto btn">8</button>
-		<button on:click={tokenStore.insertDigit('9')} class="text-2xl h-auto btn">9</button>
+		<button
+			on:click={tokenStore.insertDivisionToken()}
+			class="text-2xl h-auto btn btn-active btn-warning">/</button
+		>
+		<button on:click={tokenStore.insertDigit('7')} class="text-2xl h-auto btn btn-active">7</button>
+		<button on:click={tokenStore.insertDigit('8')} class="text-2xl h-auto btn btn-active">8</button>
+		<button on:click={tokenStore.insertDigit('9')} class="text-2xl h-auto btn btn-active">9</button>
 		<button
 			on:click={tokenStore.insertMultiplicationToken()}
-			class="text-2xl h-auto btn btn-warning normal-case">x</button
+			class="text-2xl h-auto btn btn-active btn-warning normal-case">x</button
 		>
-		<button on:click={tokenStore.insertDigit('4')} class="text-2xl h-auto btn">4</button>
-		<button on:click={tokenStore.insertDigit('5')} class="text-2xl h-auto btn">5</button>
-		<button on:click={tokenStore.insertDigit('6')} class="text-2xl h-auto btn">6</button>
-		<button on:click={tokenStore.insertSubtractionToken()} class="text-2xl h-auto btn btn-warning"
-			>-</button
+		<button on:click={tokenStore.insertDigit('4')} class="text-2xl h-auto btn btn-active">4</button>
+		<button on:click={tokenStore.insertDigit('5')} class="text-2xl h-auto btn btn-active">5</button>
+		<button on:click={tokenStore.insertDigit('6')} class="text-2xl h-auto btn btn-active">6</button>
+		<button
+			on:click={tokenStore.insertSubtractionToken()}
+			class="text-2xl h-auto btn btn-active btn-warning">-</button
 		>
-		<button on:click={tokenStore.insertDigit('1')} class="text-2xl h-auto btn">1</button>
-		<button on:click={tokenStore.insertDigit('2')} class="text-2xl h-auto btn">2</button>
-		<button on:click={tokenStore.insertDigit('3')} class="text-2xl h-auto btn">3</button>
-		<button on:click={tokenStore.insertAdditionToken()} class="text-2xl h-auto btn btn-warning"
-			>+</button
+		<button on:click={tokenStore.insertDigit('1')} class="text-2xl h-auto btn btn-active">1</button>
+		<button on:click={tokenStore.insertDigit('2')} class="text-2xl h-auto btn btn-active">2</button>
+		<button on:click={tokenStore.insertDigit('3')} class="text-2xl h-auto btn btn-active">3</button>
+		<button
+			on:click={tokenStore.insertAdditionToken()}
+			class="text-2xl h-auto btn btn-active btn-warning">+</button
 		>
-		<button on:click={tokenStore.toggleOrInsertNegationToken()} class="text-2xl h-auto btn"
-			>+/-</button
+		<button
+			on:click={tokenStore.toggleOrInsertNegationToken()}
+			class="text-2xl h-auto btn btn-active">+/-</button
 		>
-		<button on:click={tokenStore.insertDigit('0')} class="text-2xl h-auto btn">0</button>
-		<button on:click={tokenStore.insertDigit('.')} class="text-2xl h-auto btn">.</button>
-		<button class="text-2xl h-auto btn btn-success">=</button>
+		<button on:click={tokenStore.insertDigit('0')} class="text-2xl h-auto btn btn-active">0</button>
+		<button on:click={tokenStore.insertDigit('.')} class="text-2xl h-auto btn btn-active">.</button>
+		<button class="text-2xl h-auto btn btn-active btn-success">=</button>
 	</div>
 </div>
