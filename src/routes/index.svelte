@@ -1,5 +1,6 @@
 <script>
 	import tokenStore from '$lib/stores/TokenStore';
+	import evalStore from '$lib/stores/Eval';
 	import ExpressionPanel from '$lib/components/ExpressionPanel.svelte';
 	import { tick, onMount } from 'svelte';
 
@@ -24,7 +25,7 @@
 		<div class="h-1/5 px-8 flex items-center justify-center">
 			<span class="text-2xl font-extrabold text-green-800">=</span>
 			<span class="grow" />
-			<span class="text-2xl text-gray-500 float-right">12345</span>
+			<span class="text-2xl text-gray-500 float-right">{$evalStore}</span>
 		</div>
 		<div class="h-1/5 px-8">
 			<button class="h-full p-auto">
