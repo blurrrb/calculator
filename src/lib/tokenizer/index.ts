@@ -1,9 +1,11 @@
 import { ErrorMessages } from '$lib/error';
 import {
 	AdditionToken,
+	ClosingParenthesisToken,
 	DivisionToken,
 	MultiplicationToken,
 	NegationToken,
+	NumberToken,
 	OpeningParenthesisToken,
 	SubtractionToken
 } from './tokens';
@@ -32,6 +34,18 @@ export default class Tokenizer {
 		return this.tokens;
 	}
 
+	insertBasicToken(token: BasicToken): void {
+		this.tokens.push(token);
+		this.prevTokenIdx++;
+	}
+
+	removeBasicToken(): BasicToken {
+		if (this.tokens.length == 0) return null;
+		const token = this.tokens.pop();
+		this.prevTokenIdx--;
+		return token;
+	}
+
 	insertAdditionToken(): Error {
 		if (
 			this.tokens.length == 0 ||
@@ -46,8 +60,7 @@ export default class Tokenizer {
 		) {
 			this.tokens[this.prevTokenIdx] = new AdditionToken();
 		} else {
-			this.tokens.push(new AdditionToken());
-			this.prevTokenIdx++;
+			this.insertBasicToken(new AdditionToken());
 		}
 		return null;
 	}
@@ -66,8 +79,7 @@ export default class Tokenizer {
 		) {
 			this.tokens[this.prevTokenIdx] = new SubtractionToken();
 		} else {
-			this.tokens.push(new SubtractionToken());
-			this.prevTokenIdx++;
+			this.insertBasicToken(new SubtractionToken());
 		}
 		return null;
 	}
@@ -86,8 +98,7 @@ export default class Tokenizer {
 		) {
 			this.tokens[this.prevTokenIdx] = new MultiplicationToken();
 		} else {
-			this.tokens.push(new MultiplicationToken());
-			this.prevTokenIdx++;
+			this.insertBasicToken(new MultiplicationToken());
 		}
 		return null;
 	}
@@ -106,17 +117,26 @@ export default class Tokenizer {
 		) {
 			this.tokens[this.prevTokenIdx] = new DivisionToken();
 		} else {
-			this.tokens.push(new DivisionToken());
-			this.prevTokenIdx++;
+			this.insertBasicToken(new DivisionToken());
 		}
 		return null;
 	}
 
 	insertOpeningParenthesis(): Error {
-		this.tokens.push(new OpeningParenthesisToken());
-		this.prevTokenIdx++;
+		this.insertBasicToken(new OpeningParenthesisToken());
 		this.openingParenthesisPositions.push(this.prevTokenIdx);
 		this.parenthesisCount++;
+		return null;
+	}
+
+	insertClosingParenthesis(): Error {
+		if (this.parenthesisCount == 0) return new Error(ErrorMessages.INVALID_SYNTAX);
+		this.insertBasicToken(
+			new ClosingParenthesisToken(
+				this.openingParenthesisPositions[this.openingParenthesisPositions.length - 1]
+			)
+		);
+		this.parenthesisCount--;
 		return null;
 	}
 
@@ -128,23 +148,46 @@ export default class Tokenizer {
 			return Error(ErrorMessages.DELETION_ERROR);
 		}
 
-		this.tokens.pop();
+		this.removeBasicToken();
 		this.openingParenthesisPositions.pop();
 		this.parenthesisCount--;
-		this.prevTokenIdx--;
 		return null;
 	}
 
-	insertNegationToken(): Error {
+	removeClosingParenthesis(): Error {
+		if (
+			this.tokens.length == 0 ||
+			this.tokens[this.prevTokenIdx].type != TokenTypes.ClosingParenthesis
+		) {
+			return Error(ErrorMessages.DELETION_ERROR);
+		}
+
+		this.removeBasicToken();
+		this.parenthesisCount++;
+		return null;
+	}
+
+	toggleOrInsertNegationToken(): Error {
 		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Negation) {
 			this.insertOpeningParenthesis();
-			this.tokens.push(new NegationToken());
-			this.prevTokenIdx++;
-		} else if (this.tokens[this.prevTokenIdx].type == TokenTypes.Negation) {
-			this.tokens.pop();
-			this.prevTokenIdx--;
+			this.insertBasicToken(new NegationToken());
+		} else {
+			this.removeBasicToken();
 			this.removeOpeningParenthesis();
 		}
 		return null;
+	}
+
+	removeOperator(): Error {
+		if (this.tokens.length == 0 || !isOperator(this.tokens[this.prevTokenIdx])) {
+			return Error(ErrorMessages.DELETION_ERROR);
+		}
+		this.removeBasicToken();
+	}
+
+	insertDigit(): Error {
+		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Number) {
+			this.tokens.push(new NumberToken());
+		}
 	}
 }
