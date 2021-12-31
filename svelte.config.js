@@ -12,9 +12,11 @@ const config = {
 
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-		paths: {
-			base: '/calculator'
-		}
+		...(process.env.NODE_ENV === 'gh-pages' && {
+			paths: {
+				base: '/calculator'
+			}
+		})
 	}
 };
 

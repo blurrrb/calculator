@@ -17,7 +17,7 @@ jobs:
         node-version: 16.x
         cache: 'npm'
     - run: npm install
-    - run: npm run build
+    - run: NODE_ENV=gh-pages npm run build
     - uses: crazy-max/ghaction-github-pages@v2
       with:
         target_branch: gh-pages
