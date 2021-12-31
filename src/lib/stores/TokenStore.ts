@@ -1,18 +1,16 @@
 import Tokenizer from '$lib/tokenizer';
 import { writable } from 'svelte/store';
+import { browser } from '$app/env';
 
 const tokenizer = new Tokenizer();
 const tokenStore = writable(tokenizer.getTokens());
 
-const haptic = (() => {
-	if ('vibrate' in navigator) {
-		return () => {
-			navigator.vibrate(5);
-		};
-	} else {
-		return () => ({});
-	}
-})();
+const haptic =
+	browser && 'vibrate' in navigator
+		? () => {
+				navigator.vibrate(5);
+		  }
+		: () => ({});
 
 const wrapTokenizerMethod = (tokenizerMethod) => {
 	return (...args) => {
