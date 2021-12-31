@@ -11,7 +11,7 @@ import {
 } from './tokens';
 import type BasicToken from './tokens/BasicToken';
 import TokenTypes from './TokenTypes';
-import { isOperator } from './utils';
+import { isOperator, validateNumber } from './utils';
 
 export default class Tokenizer {
 	tokens: BasicToken[];
@@ -49,7 +49,8 @@ export default class Tokenizer {
 	insertAdditionToken(): Error {
 		if (
 			this.tokens.length == 0 ||
-			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis
+			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis ||
+			this.tokens[this.prevTokenIdx].type == TokenTypes.Addition
 		) {
 			return new Error(ErrorMessages.INVALID_SYNTAX);
 		}
@@ -68,7 +69,8 @@ export default class Tokenizer {
 	insertSubtractionToken(): Error {
 		if (
 			this.tokens.length == 0 ||
-			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis
+			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis ||
+			this.tokens[this.prevTokenIdx].type == TokenTypes.Subtraction
 		) {
 			return new Error(ErrorMessages.INVALID_SYNTAX);
 		}
@@ -87,7 +89,8 @@ export default class Tokenizer {
 	insertMultiplicationToken(): Error {
 		if (
 			this.tokens.length == 0 ||
-			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis
+			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis ||
+			this.tokens[this.prevTokenIdx].type == TokenTypes.Multiplication
 		) {
 			return new Error(ErrorMessages.INVALID_SYNTAX);
 		}
@@ -106,7 +109,8 @@ export default class Tokenizer {
 	insertDivisionToken(): Error {
 		if (
 			this.tokens.length == 0 ||
-			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis
+			this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis ||
+			this.tokens[this.prevTokenIdx].type == TokenTypes.Division
 		) {
 			return new Error(ErrorMessages.INVALID_SYNTAX);
 		}
@@ -123,6 +127,9 @@ export default class Tokenizer {
 	}
 
 	insertOpeningParenthesis(): Error {
+		if (this.tokens.length > 0 && this.tokens[this.prevTokenIdx].type == TokenTypes.Number) {
+			return new Error(ErrorMessages.INVALID_SYNTAX);
+		}
 		this.insertBasicToken(new OpeningParenthesisToken());
 		this.openingParenthesisPositions.push(this.prevTokenIdx);
 		this.parenthesisCount++;
@@ -130,7 +137,13 @@ export default class Tokenizer {
 	}
 
 	insertClosingParenthesis(): Error {
-		if (this.parenthesisCount == 0) return new Error(ErrorMessages.INVALID_SYNTAX);
+		if (
+			this.parenthesisCount == 0 ||
+			(this.tokens[this.prevTokenIdx].type != TokenTypes.Number &&
+				this.tokens[this.prevTokenIdx].type != TokenTypes.ClosingParenthesis)
+		) {
+			return new Error(ErrorMessages.INVALID_SYNTAX);
+		}
 		this.insertBasicToken(
 			new ClosingParenthesisToken(
 				this.openingParenthesisPositions[this.openingParenthesisPositions.length - 1]
@@ -168,13 +181,24 @@ export default class Tokenizer {
 	}
 
 	toggleOrInsertNegationToken(): Error {
+		if (this.tokens.length == 0) {
+			this.insertOpeningParenthesis();
+			this.insertBasicToken(new NegationToken());
+			return null;
+		}
+
 		const isNumber = this.tokens[this.prevTokenIdx].type == TokenTypes.Number;
 		let numberToken;
 		if (isNumber) {
 			numberToken = this.removeBasicToken();
 		}
 
-		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Negation) {
+		if (this.tokens.length == 0) {
+			this.insertOpeningParenthesis();
+			this.insertBasicToken(new NegationToken());
+		} else if (this.tokens[this.prevTokenIdx].type == TokenTypes.OpeningParenthesis) {
+			this.insertBasicToken(new NegationToken());
+		} else if (this.tokens[this.prevTokenIdx].type != TokenTypes.Negation) {
 			this.insertOpeningParenthesis();
 			this.insertBasicToken(new NegationToken());
 		} else {
@@ -197,18 +221,58 @@ export default class Tokenizer {
 	}
 
 	insertDigit(digit: string): Error {
-		// TODO: fix this method
-		this.insertBasicToken(new NumberToken(digit));
+		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Number) {
+			if (digit === '.') this.insertBasicToken(new NumberToken('0.'));
+			else this.insertBasicToken(new NumberToken(digit));
+		} else {
+			const numberToken: NumberToken = <NumberToken>this.tokens[this.prevTokenIdx];
+			const newNumber: string = numberToken.str + digit;
+			const [isNumber, err] = validateNumber(newNumber);
+			if (!isNumber) {
+				return err;
+			}
+
+			numberToken.str = newNumber;
+			numberToken.value = parseFloat(newNumber);
+		}
 		return null;
 	}
 
 	removeDigit(): Error {
-		// TODO: fix this method
 		if (this.tokens.length == 0 || this.tokens[this.prevTokenIdx].type != TokenTypes.Number) {
 			return new Error(ErrorMessages.DELETION_ERROR);
 		}
 
-		this.removeBasicToken();
+		const numberToken: NumberToken = <NumberToken>this.tokens[this.prevTokenIdx];
+		if (numberToken.str.length == 1) {
+			this.removeBasicToken();
+			return null;
+		}
+
+		const newNumber = numberToken.str.slice(0, numberToken.str.length - 1);
+		numberToken.str = newNumber;
+		numberToken.value = parseFloat(newNumber);
 		return null;
+	}
+
+	removeCharacter(): Error {
+		if (this.tokens.length == 0) return new Error(ErrorMessages.DELETION_ERROR);
+		switch (this.tokens[this.prevTokenIdx].type) {
+			case TokenTypes.Addition:
+			case TokenTypes.Subtraction:
+			case TokenTypes.Multiplication:
+			case TokenTypes.Division:
+				return this.removeOperator();
+			case TokenTypes.OpeningParenthesis:
+				return this.removeOpeningParenthesis();
+			case TokenTypes.ClosingParenthesis:
+				return this.removeClosingParenthesis();
+			case TokenTypes.Negation:
+				return this.toggleOrInsertNegationToken();
+			case TokenTypes.Number:
+				return this.removeDigit();
+			default:
+				return new Error(ErrorMessages.DELETION_ERROR);
+		}
 	}
 }

@@ -3,7 +3,7 @@ import type BasicToken from './tokens/BasicToken';
 import TokenTypes from './TokenTypes';
 
 export function validateNumber(num: string): [boolean, Error] {
-	const validNumberRegex = /^\d+\.\d+|\d+$/;
+	const validNumberRegex = /^(\d+\.\d*|\d+)$/;
 	if (validNumberRegex.test(num)) return [true, null];
 
 	return [false, new Error(ErrorMessages.INVALID_NUMBER)];
