@@ -20,6 +20,7 @@ jobs:
       - run: NODE_ENV=gh-pages npm run build
       - run: touch build/.nojekyll
       - run: sed -i 's/const HOME_URL = "\/";/const HOME_URL = "\/calculator";/' build/service-worker.js
+      - run: sed -i 's/\/service-worker.js/\/calculator\/service-worker.js/' build/index.html
       - uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
