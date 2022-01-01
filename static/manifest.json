@@ -1,0 +1,17 @@
+{
+	"name": "Calculator",
+	"short_name": "Calculator",
+	"description": "A calculator application",
+	"categories": ["utilities", "tools"],
+	"icons": [
+		{
+			"src": "/calculator/favicon.png",
+			"sizes": "128x128",
+			"type": "image/png"
+		}
+	],
+	"start_url": "index.html",
+	"display": "standalone",
+	"background_color": "#f5923e",
+	"theme_color": "#f5923e"
+}
