@@ -4,14 +4,13 @@
 /// <reference lib="webworker" />
 
 import { build, files, timestamp } from '$service-worker';
-import { base } from '/paths';
 
 const PRECACHE = `calculator-precache-${timestamp}`;
 
-const HOME_PAGE_URLS = [base];
+const HOME_URL = '/';
 
 // A list of local resources we always want to be cached.
-const PRECACHE_URLS = build.concat(files).concat(HOME_PAGE_URLS);
+const PRECACHE_URLS = build.concat(files).concat([HOME_URL]);
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', (event) => {
@@ -26,6 +25,7 @@ self.addEventListener('install', (event) => {
 
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', (event) => {
+	console.log('meta', import.meta, import.meta.env);
 	event.waitUntil(
 		(async () => {
 			const cacheKeys = await caches.keys();
@@ -41,8 +41,9 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		(async () => {
+			console.log('getting: ', event.request);
 			const cache = await caches.open(PRECACHE);
-			return await cache.match(event.response);
+			return await cache.match(event.request);
 		})()
 	);
 });
