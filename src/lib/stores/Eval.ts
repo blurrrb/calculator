@@ -4,7 +4,6 @@ import tokenStore from './TokenStore';
 
 const parser = new Parser();
 const evalStore = derived(tokenStore, (tokens) => {
-	console.log('evaluating tokens:', tokens);
 	return parser.evaluate(tokens);
 });
 

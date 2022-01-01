@@ -1,17 +1,12 @@
 <script>
 	import '../tailwind.css';
-	import { getAssetPath } from '$lib/utils';
+	import '../global.css';
+	import { getResourcePath } from '$lib/utils';
 </script>
 
 <svelte:head>
 	<title>Calculator</title>
-	<link rel="icon" href={getAssetPath('/favicon.png')} />
+	<link rel="icon" href={getResourcePath('/favicon.png')} />
 </svelte:head>
 
 <slot />
-
-<style>
-	button {
-		touch-action: manipulation;
-	}
-</style>

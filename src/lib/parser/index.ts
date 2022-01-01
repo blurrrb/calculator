@@ -21,7 +21,6 @@ export default class Parser {
 		let a = 0;
 		let operation: TokenTypes = TokenTypes.Addition;
 		while (this.nextToken()) {
-			console.log('parseE', this.nextToken());
 			const b = this.parseT();
 			switch (operation) {
 				case TokenTypes.Addition:
@@ -48,7 +47,6 @@ export default class Parser {
 		let a = 1;
 		let operation = TokenTypes.Multiplication;
 		while (this.nextToken()) {
-			console.log('parseF', this.nextToken());
 			const b = this.parseF();
 			switch (operation) {
 				case TokenTypes.Multiplication:
