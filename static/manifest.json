@@ -10,7 +10,7 @@
 			"type": "image/png"
 		}
 	],
-	"start_url": "index.html",
+	"start_url": "/calculator",
 	"display": "standalone",
 	"background_color": "#f5923e",
 	"theme_color": "#f5923e"
