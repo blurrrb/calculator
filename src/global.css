@@ -2,3 +2,7 @@
 button {
 	touch-action: manipulation;
 }
+
+body {
+	position: fixed;
+}
