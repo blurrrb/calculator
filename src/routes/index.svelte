@@ -65,10 +65,8 @@
 			on:touchstart={tokenStore.insertMultiplicationToken()}
 			class="text-2xl h-auto btn btn-active btn-warning normal-case">x</button
 		>
-		<button
-			on:touchstart={tokenStore.insertDigit('4')}
-			on:touchstart={tokenStore.insertDigit('4')}
-			class="text-2xl h-auto btn btn-active">4</button
+		<button on:touchstart={tokenStore.insertDigit('4')} class="text-2xl h-auto btn btn-active"
+			>4</button
 		>
 		<button on:touchstart={tokenStore.insertDigit('5')} class="text-2xl h-auto btn btn-active"
 			>5</button
