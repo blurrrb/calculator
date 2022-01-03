@@ -5,6 +5,8 @@
 	import { tick, onMount } from 'svelte';
 
 	let expressionDisplay;
+	let val;
+	$: val = $evalStore;
 
 	onMount(() => {
 		tokenStore.subscribe(async () => {
@@ -14,8 +16,10 @@
 	});
 
 	const equalToHandler = () => {
-		
-	}
+		// TODO: refactor tokenStore API
+		tokenStore.resetTokens()();
+		tokenStore.insertDigit(val)();
+	};
 </script>
 
 <div class="w-screen h-screen bg-black normal-case">
@@ -29,7 +33,7 @@
 		<div class="h-1/5 px-8 flex items-center justify-center">
 			<span class="text-2xl font-extrabold text-green-800">=</span>
 			<span class="grow" />
-			<span class="text-2xl text-gray-500 float-right">{$evalStore}</span>
+			<span class="text-2xl text-gray-500 float-right">{val}</span>
 		</div>
 		<div class="h-1/5 px-8">
 			<button on:touchend={tokenStore.removeCharacter()} class="h-full p-auto float-right">
@@ -104,6 +108,8 @@
 		<button on:touchend={tokenStore.insertDigit('.')} class="text-2xl h-auto btn btn-active"
 			>.</button
 		>
-		<button class="text-2xl h-auto btn btn-active btn-success">=</button>
+		<button on:touchend={() => equalToHandler()} class="text-2xl h-auto btn btn-active btn-success"
+			>=</button
+		>
 	</div>
 </div>
