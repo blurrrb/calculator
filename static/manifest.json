@@ -5,12 +5,12 @@
 	"categories": ["utilities", "tools"],
 	"icons": [
 		{
-			"src": "/calculator/favicon.png",
+			"src": "/favicon.png",
 			"sizes": "128x128",
 			"type": "image/png"
 		}
 	],
-	"start_url": "/calculator",
+	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#f5923e",
 	"theme_color": "#f5923e"
