@@ -7,10 +7,10 @@ import { build, files, timestamp } from '$service-worker';
 
 const PRECACHE = `calculator-precache-${timestamp}`;
 
-const HOME_URL = '/';
+const CACHEABLE_ROUTES = ['/'];
 
 // A list of local resources we always want to be cached.
-const PRECACHE_URLS = build.concat(files).concat([HOME_URL]);
+const PRECACHE_URLS = build.concat(files).concat(CACHEABLE_ROUTES);
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', (event) => {
