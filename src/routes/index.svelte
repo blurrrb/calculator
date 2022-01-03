@@ -12,6 +12,10 @@
 			expressionDisplay.scrollTop = expressionDisplay.scrollHeight - expressionDisplay.clientHeight;
 		});
 	});
+
+	const equalToHandler = () => {
+		
+	}
 </script>
 
 <div class="w-screen h-screen bg-black normal-case">
