@@ -28,7 +28,7 @@
 			<span class="text-2xl text-gray-500 float-right">{$evalStore}</span>
 		</div>
 		<div class="h-1/5 px-8">
-			<button on:click={tokenStore.removeCharacter()} class="h-full p-auto float-right">
+			<button on:touchend={tokenStore.removeCharacter()} class="h-full p-auto float-right">
 				<!-- svelte-ignore a11y-missing-attribute -->
 				<img class="w-8" src="/icons/backspace.svg" />
 			</button>
@@ -36,48 +36,70 @@
 	</div>
 	<div class="p-2 pt-0 h-3/5 grid grid-cols-4 gap-2">
 		<button
-			on:click={tokenStore.resetTokens()}
+			on:touchend={tokenStore.resetTokens()}
 			class="text-2xl h-auto btn btn-active btn-active btn-error">C</button
 		>
 		<button
-			on:click={tokenStore.insertOpeningParenthesis()}
+			on:touchend={tokenStore.insertOpeningParenthesis()}
 			class="text-2xl h-auto btn btn-active btn-warning">(</button
 		>
 		<button
-			on:click={tokenStore.insertClosingParenthesis()}
+			on:touchend={tokenStore.insertClosingParenthesis()}
 			class="text-2xl h-auto btn btn-active btn-warning">)</button
 		>
 		<button
-			on:click={tokenStore.insertDivisionToken()}
+			on:touchend={tokenStore.insertDivisionToken()}
 			class="text-2xl h-auto btn btn-active btn-warning">/</button
 		>
-		<button on:click={tokenStore.insertDigit('7')} class="text-2xl h-auto btn btn-active">7</button>
-		<button on:click={tokenStore.insertDigit('8')} class="text-2xl h-auto btn btn-active">8</button>
-		<button on:click={tokenStore.insertDigit('9')} class="text-2xl h-auto btn btn-active">9</button>
+		<button on:touchend={tokenStore.insertDigit('7')} class="text-2xl h-auto btn btn-active"
+			>7</button
+		>
+		<button on:touchend={tokenStore.insertDigit('8')} class="text-2xl h-auto btn btn-active"
+			>8</button
+		>
+		<button on:touchend={tokenStore.insertDigit('9')} class="text-2xl h-auto btn btn-active"
+			>9</button
+		>
 		<button
-			on:click={tokenStore.insertMultiplicationToken()}
+			on:touchend={tokenStore.insertMultiplicationToken()}
 			class="text-2xl h-auto btn btn-active btn-warning normal-case">x</button
 		>
-		<button on:click={tokenStore.insertDigit('4')} class="text-2xl h-auto btn btn-active">4</button>
-		<button on:click={tokenStore.insertDigit('5')} class="text-2xl h-auto btn btn-active">5</button>
-		<button on:click={tokenStore.insertDigit('6')} class="text-2xl h-auto btn btn-active">6</button>
+		<button on:touchend={tokenStore.insertDigit('4')} class="text-2xl h-auto btn btn-active"
+			>4</button
+		>
+		<button on:touchend={tokenStore.insertDigit('5')} class="text-2xl h-auto btn btn-active"
+			>5</button
+		>
+		<button on:touchend={tokenStore.insertDigit('6')} class="text-2xl h-auto btn btn-active"
+			>6</button
+		>
 		<button
-			on:click={tokenStore.insertSubtractionToken()}
+			on:touchend={tokenStore.insertSubtractionToken()}
 			class="text-2xl h-auto btn btn-active btn-warning">-</button
 		>
-		<button on:click={tokenStore.insertDigit('1')} class="text-2xl h-auto btn btn-active">1</button>
-		<button on:click={tokenStore.insertDigit('2')} class="text-2xl h-auto btn btn-active">2</button>
-		<button on:click={tokenStore.insertDigit('3')} class="text-2xl h-auto btn btn-active">3</button>
+		<button on:touchend={tokenStore.insertDigit('1')} class="text-2xl h-auto btn btn-active"
+			>1</button
+		>
+		<button on:touchend={tokenStore.insertDigit('2')} class="text-2xl h-auto btn btn-active"
+			>2</button
+		>
+		<button on:touchend={tokenStore.insertDigit('3')} class="text-2xl h-auto btn btn-active"
+			>3</button
+		>
 		<button
-			on:click={tokenStore.insertAdditionToken()}
+			on:touchend={tokenStore.insertAdditionToken()}
 			class="text-2xl h-auto btn btn-active btn-warning">+</button
 		>
 		<button
-			on:click={tokenStore.toggleOrInsertNegationToken()}
+			on:touchend={tokenStore.toggleOrInsertNegationToken()}
 			class="text-2xl h-auto btn btn-active">+/-</button
 		>
-		<button on:click={tokenStore.insertDigit('0')} class="text-2xl h-auto btn btn-active">0</button>
-		<button on:click={tokenStore.insertDigit('.')} class="text-2xl h-auto btn btn-active">.</button>
+		<button on:touchend={tokenStore.insertDigit('0')} class="text-2xl h-auto btn btn-active"
+			>0</button
+		>
+		<button on:touchend={tokenStore.insertDigit('.')} class="text-2xl h-auto btn btn-active"
+			>.</button
+		>
 		<button class="text-2xl h-auto btn btn-active btn-success">=</button>
 	</div>
 </div>
