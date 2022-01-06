@@ -35,10 +35,10 @@
 			<span class="grow" />
 			<span class="text-2xl text-gray-500 float-right">{val}</span>
 		</div>
-		<div class="h-1/5 px-8">
+		<div class="h-1/5 px-2">
 			<button
 				on:touchend|preventDefault={tokenStore.removeCharacter()}
-				class="h-full p-auto float-right"
+				class="h-full p-auto float-right px-8"
 			>
 				<!-- svelte-ignore a11y-missing-attribute -->
 				<img class="w-8" src="/icons/backspace.svg" />
