@@ -22,7 +22,7 @@ export default class Parser {
 		let operation: TokenTypes = TokenTypes.Addition;
 		while (this.nextToken()) {
 			const b = this.parseT();
-			if (!b) return null;
+			if (b == null) return null;
 			switch (operation) {
 				case TokenTypes.Addition:
 					a = a + b;
@@ -49,7 +49,7 @@ export default class Parser {
 		let operation = TokenTypes.Multiplication;
 		while (this.nextToken()) {
 			const b = this.parseF();
-			if (!b) return null;
+			if (b == null) return null;
 			switch (operation) {
 				case TokenTypes.Multiplication:
 					a = a * b;
