@@ -18,7 +18,7 @@
 	const equalToHandler = () => {
 		// TODO: refactor tokenStore API
 		tokenStore.resetTokens()();
-		tokenStore.insertDigit(val)();
+		tokenStore.insertDigit(String(val))();
 	};
 </script>
 
