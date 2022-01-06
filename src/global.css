@@ -1,8 +1,4 @@
-/* disable double tap to zoom */
-button {
-	touch-action: manipulation;
-}
-
-body {
+html {
 	position: fixed;
+	touch-action: manipulation;
 }
