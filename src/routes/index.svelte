@@ -33,7 +33,11 @@
 		<div class="h-1/5 px-8 flex items-center justify-center">
 			<span class="text-2xl font-extrabold text-green-800">=</span>
 			<span class="grow" />
-			<span class="text-2xl text-gray-500 float-right">{val}</span>
+			<span class="text-2xl text-gray-500 float-right">
+				{#if val}
+					{val}
+				{/if}
+			</span>
 		</div>
 		<div class="h-1/5 px-2">
 			<button
